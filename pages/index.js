@@ -20,12 +20,14 @@ export default function Home() {
       <div className="h-screen w-full flex flex-col justify-around mobile-bg sm:tablet-bg lg:desktop-bg">
         <div className="w-full flex flex-col sm:flex-row justify-center items-center gap-4 px-8 sm:px-10 lg:px-24">
             <div className="w-full sm:min-h-[480px] bg-indigo-300/20 py-6 sm:py-10 px-[40px] rounded-lg">
-                <Image 
-                width={300}
-                height={80}
-                src="/facepal_logo.png"
-                alt="facepal logo"/>
-                <h2 className="text-2xl sm:text-3xl mt-4">The Coolest way to connect with friends and hold money</h2>
+              <Image 
+              width={300}
+              height={80}
+              src="/facepal_logo.png"
+              alt="facepal logo"/>
+              <h2 className="text-2xl sm:text-3xl mt-4">
+                The Coolest way to connect with friends and hold money
+              </h2>
             </div>
             <div className="w-full sm:min-h-[480px] flex flex-col gap-5">
                 <form className="flex flex-col gap-3">
