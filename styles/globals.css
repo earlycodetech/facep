@@ -3,5 +3,34 @@
 @tailwind utilities;
 
 @layer utilities {
+  /* Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .desktop-bg {
+    background-image: linear-gradient(rgba(97, 103, 122, 0.5), rgba(39, 40, 41, 0.9)),url("/imgs/bg.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .tablet-bg {
+    background-image: linear-gradient(rgba(97, 103, 122, 0.5), rgba(39, 40, 41, 0.9)),url("/imgs/bg-tablet.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .mobile-bg {
+    background-image: linear-gradient(rgba(97, 103, 122, 0.5), rgba(39, 40, 41, 0.9)),url("/imgs/bg-mobile.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
 }
