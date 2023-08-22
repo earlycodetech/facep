@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import {GoSignOut} from 'react-icons/go';
 import { useSession,signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import WritePost from '@/components/WritePost';
+import {getDocs,collection} from 'firebase/firestore';
+import { db } from '@/settings/firebase.setting';
+import PostDisplay from '@/components/PostDisplay';
+import { cdnImages } from '@/assets/demo_cdn_images';
+import { rangeOfRandNums } from '@/assets/range-of-rand-nums';
 
 export default function Feeds() {
   const {data:session} = useSession();
+  const [posts,setPosts] = useState([]);
   const router = useRouter();
 
   React.useEffect(() => {
@@ -14,6 +20,17 @@ export default function Feeds() {
       router.push('/auth/signup')
     }
   },[]);
+
+  //get posts from firestore
+  const getPosts = async () => {
+    const res = await getDocs(collection(db,'posts'));
+
+    res.docs.forEach(doc => posts.push({
+      id:doc.id,
+      data:doc.data()
+    }))
+  }
+  getPosts();
 
   return (
     <>
@@ -41,10 +58,17 @@ export default function Feeds() {
 
                     {/* previous posts holder */}
                     <div className="flex flex-col gap-2">
-
-                        {/* single post  */}
-                           
-                        {/* end of first post */}
+                        {
+                          posts.map(post => (
+                            <div id={post.id}>
+                              <PostDisplay 
+                              timePosted={post.data.postedAt}
+                              body={post.data.body}
+                              postImage={cdnImages[rangeOfRandNums(0,cdnImages.length)]}
+                              />
+                            </div>
+                          ))
+                        }
                     </div>
                 </div>
             </div>

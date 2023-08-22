@@ -19,13 +19,16 @@ export default function WritePost() {
             author:session.user.email,
             postedAt:new Date().getTime()
         })
-        .then(() => alert('Your post was published'))
+        .then(() => {
+            setFormInput('');
+            alert('Your post was published');
+        })
         .catch(error => console.error(error))
     }
 
     return (
         <form className="flex flex-col border border-gray-100 bg-white rounded-md shadow-md p-3 mb-4 gap-4">
-            <div className='flex flex-row justify-between items-center gap-4'>
+            <div className='flex flex-row items-center gap-4'>
                 <Image 
                 className="rounded-full" 
                 width={48} 
@@ -33,7 +36,7 @@ export default function WritePost() {
                 src={session?.user.image} 
                 alt="profile photo" />
 
-                <div className='flex flex-col gap-2'>
+                <div className='w-full flex flex-col gap-2'>
                     <TextField
                     multiline={true}
                     className='w-full'
@@ -42,7 +45,7 @@ export default function WritePost() {
 
                     <Button 
                     variant='outlined'
-                    className=''
+                    className={formInput.length > 0 ? 'block w-[100px]' : 'hidden'}
                     onClick={handleCreatePost}>Post</Button>
                 </div>
             </div>
