@@ -8,7 +8,6 @@ import {getDocs,collection} from 'firebase/firestore';
 import { db } from '@/settings/firebase.setting';
 import PostDisplay from '@/components/PostDisplay';
 import { cdnImages } from '@/assets/demo_cdn_images';
-import { rangeOfRandNums } from '@/assets/range-of-rand-nums';
 
 export default function Feeds() {
   const {data:session} = useSession();
@@ -68,7 +67,7 @@ export default function Feeds() {
                               <PostDisplay 
                               timePosted={post.data.postedAt}
                               body={post.data.body}
-                              postImage={cdnImages[rangeOfRandNums(0,cdnImages.length)]}
+                              postImage={post.data.imageUrl}
                               />
                             </div>
                           ))
