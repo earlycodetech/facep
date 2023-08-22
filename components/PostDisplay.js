@@ -42,9 +42,10 @@ export default function PostDisplay({timePosted,body,postImage}) {
             <p className='px-4'>{body}</p>
             <Image  
             src={postImage}
-            width={50}
-            height={50}
-            className='w-full py-4'/>
+            width={560}
+            height={560}
+            alt='post image'
+            className='w-full h-auto py-4'/>
             <div className='flex flex-row justify-between px-4'>
                 <div className='flex items-center justify-center w-[20px] h-[20px] rounded-full bg-sky-800'>
                     <ThumbUpIcon 

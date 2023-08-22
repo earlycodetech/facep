@@ -25,9 +25,13 @@ export default function Feeds() {
   const getPosts = async () => {
     const res = await getDocs(collection(db,'posts'));
 
-    res.docs.forEach(doc => posts.push({
-      id:doc.id,
-      data:doc.data()
+    setPosts(res.docs.map(doc => {
+      return {
+        id:doc.id,
+        data:{
+          ...doc.data()
+        }
+      }
     }))
   }
   getPosts();
