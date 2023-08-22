@@ -40,13 +40,16 @@ export default function WritePost() {
                     <TextField
                     multiline={true}
                     className='w-full'
+                    placeholder="what's on your mind ..."
                     value={formInput}
                     onChange={(text) => setFormInput(text.target.value)}/>
 
-                    <Button 
+                    {formInput.length > 0
+                    ? <Button 
                     variant='outlined'
-                    className={formInput.length > 0 ? 'block w-[100px]' : 'hidden'}
+                    className='block w-[100px]'
                     onClick={handleCreatePost}>Post</Button>
+                    : null}
                 </div>
             </div>
             <hr style={{color:'black'}}/>
