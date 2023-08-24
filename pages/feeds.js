@@ -1,18 +1,13 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
+import Head from 'next/head';
+import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import WritePost from '@/components/WritePost';
 import {getDocs,collection} from 'firebase/firestore';
 import { db } from '@/settings/firebase.setting';
 import PostDisplay from '@/components/PostDisplay';
-
-/*
-REMOVE
-1. live video, et al block
-2. share from post
-3. X form top of post
-*/
 
 export default function Feeds() {
   const {data:session} = useSession();
@@ -42,6 +37,11 @@ export default function Feeds() {
 
   return (
     <>
+      <Head>
+        <link rel="shortcut icon" href="facepal_icon_logo.ico" type="image/x-icon" />
+        <title>facepal | connect with friends</title>
+        <meta name="description" content="facepal is the coolest social media platform to connect with friends and hold money" />
+      </Head>
       <main className="h-screen flex justify-center bg-gradient-to-b from-indigo-500 via-sky-500 to-pink-500">
             <div className="w-full sm:w-[400px] h-full bg-white overflow-y-scroll">
                 {/* profile holder */}
@@ -53,12 +53,14 @@ export default function Feeds() {
                     src="/facepal_logo.png"
                     alt="profile photo" />
                     
-                    <Image 
-                    className="rounded-full" 
-                    width={58} 
-                    height={58} 
-                    src={session?.user.image}
-                    alt="profile photo" />
+                    <Link href='/account/profile'>
+                      <Image 
+                      className="rounded-full" 
+                      width={58} 
+                      height={58} 
+                      src={session?.user.image}
+                      alt="profile photo" />
+                    </Link>
                 </header>
 
                 <div className="flex flex-col gap-2 p-3">

@@ -3,10 +3,32 @@ import Image from 'next/image';
 import {GoSignOut} from 'react-icons/go';
 import { useSession,signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import PostDisplay from '@/components/PostDisplay';
+import { db } from '@/settings/firebase.setting';
+import { collection,query,where,getDocs,orderBy } from 'firebase/firestore';
 
 export default function Feeds() {
   const {data:session} = useSession();
   const router = useRouter();
+  const [userPosts,setUserPosts] = React.useState([]);
+
+  const handleGetUserPosts = async () => {
+    const q = query(
+        collection(db,'posts'),
+        where('author','==',session.user.email),
+        orderBy('postedAt','desc')
+    );
+    const onSnapShot = await getDocs(q);
+    setUserPosts(onSnapShot.docs.map(doc => {
+        return {
+            id:doc.id,
+            data:{
+                ...doc.data()
+            }
+        }
+    }))
+  }
+  handleGetUserPosts();
 
   React.useEffect(() => {
     if(!session) {
@@ -53,141 +75,17 @@ export default function Feeds() {
                 {/* previous posts holder  */}
 
                 <div className="flex flex-col gap-2 p-3">
-                
-                    <div className="border border-gray-100 rounded-md p-3">   {/* single post */}
-                        <ul className="flex justify-between">
-                            <li className="flex flex-row gap-1 items-center">
-                                <Image className="rounded-full" src="/imgs/opeyemi.png" width={40} height={40} alt="profile photo" />                                
-                                <small className="text-gray-700">yaradua</small>
-                            </li>
-                            <li>
-                                <small className="text-gray-700">24 minutes ago</small>
-                            </li>
-                        </ul>
-                        
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus, tenetur. Natus provident id quae delectus ab. Asperiores, veritatis!</p>
-
-                        <ul className="flex flex-row justify-between mt-2">
-                            <li className="text-sm text-gray-500">
-                                <span>5</span>
-                                <span>comments</span>
-                            </li>
-                            <li className="text-sm text-gray-500">
-                                <span>5</span>
-                                <span>likes</span>
-                            </li>
-                            <li className="text-sm text-gray-500 ">
-                                <span>5</span>
-                                <span>hearts</span>
-                            </li>
-                            <li className="text-sm text-gray-500 ">
-                                <span>5</span>
-                                <span>wows</span>
-                            </li>
-                        </ul>
-                    </div>     {/*end of single post*/}
-
-                    <div className="border border-gray-100 rounded-md p-3">   {/*single post*/}
-                        <ul className="flex justify-between">
-                            <li className="flex flex-row gap-1 items-center">
-                                <Image className="rounded-full" src="/image/opeyemi.png" width={40} height={40} alt="profile photo" />                                
-                                <small className="text-gray-700">yaradua</small>
-                            </li>
-                            <li>
-                                <small className="text-gray-700">24 minutes ago</small>
-                            </li>
-                        </ul>
-                        
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus, tenetur. Natus provident id quae delectus ab. Asperiores, veritatis!</p>
-
-                        <ul className="flex flex-row justify-between mt-2">
-                            <li className="text-sm text-gray-500">
-                                <span>5</span>
-                                <span>comments</span>
-                            </li>
-                            <li className="text-sm text-gray-500">
-                                <span>5</span>
-                                <span>likes</span>
-                            </li>
-                            <li className="text-sm text-gray-500">
-                                <span>5</span>
-                                <span>hearts</span>
-                            </li>
-                            <li className="text-sm text-gray-500">
-                                <span>5</span>
-                                <span>wows</span>
-                            </li>
-                        </ul>
-                    </div>     {/*end of single post */}
-
-
-                    <div className="border border-gray-100 rounded-md p-3">   {/* single post */}
-                        <ul className="flex justify-between">
-                            <li className="flex flex-row gap-1 items-center">
-                                <Image className="rounded-full" src="/image/opeyemi.png" width={40} height={40} alt="profile photo" />                                
-                                <small className="text-gray-700">yaradua</small>
-                            </li>
-                            <li>
-                                <small className="text-gray-700">24 minutes ago</small>
-                            </li>
-                        </ul>
-                        
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus, tenetur. Natus provident id quae delectus ab. Asperiores, veritatis!</p>
-
-                        <ul className="flex flex-row justify-between mt-2">
-                            <li className="text-sm text-gray-500">
-                                <span>5</span>
-                                <span>comments</span>
-                            </li>
-                            <li className="text-sm text-gray-500">
-                                <span>5</span>
-                                <span>likes</span>
-                            </li>
-                            <li className="text-sm text-gray-500">
-                                <span>5</span>
-                                <span>hearts</span>
-                            </li>
-                            <li className="text-sm text-gray-500">
-                                <span>5</span>
-                                <span>wows</span>
-                            </li>
-                        </ul>
-                    </div>     {/* end of single post */}
-
-
-                    <div className="border border-gray-100 rounded-md p-3">   {/* single post */}
-                        <ul className="flex justify-between">
-                            <li className="flex flex-row gap-1 items-center">
-                                <Image className="rounded-full" src="/image/opeyemi.png" width={40} height={40} alt="profile photo" />                                
-                                <small className="text-gray-700">yaradua</small>
-                            </li>
-                            <li>
-                                <small className="text-gray-700">24 minutes ago</small>
-                            </li>
-                        </ul>
-                        
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus, tenetur. Natus provident id quae delectus ab. Asperiores, veritatis!</p>
-
-                        <ul className="flex flex-row justify-between mt-2">
-                            <li className="text-sm text-gray-500">
-                                <span>5</span>
-                                <span>comments</span>
-                            </li>
-                            <li className="text-sm text-gray-500">
-                                <span>5</span>
-                                <span>likes</span>
-                            </li>
-                            <li className="text-sm text-gray-500">
-                                <span>5</span>
-                                <span>hearts</span>
-                            </li>
-                            <li className="text-sm text-gray-500">
-                                <span>5</span>
-                                <span>wows</span>
-                            </li>
-                        </ul>
-                    </div>     {/* end of single post */}
-
+                    {
+                        userPosts.map(post => (
+                        <div id={post.id}>
+                            <PostDisplay 
+                            timePosted={post.data.postedAt}
+                            body={post.data.body}
+                            postImage={post.data.imageUrl}
+                            />
+                        </div>
+                        ))
+                    }
                 </div>
             </div>
         </main>
