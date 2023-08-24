@@ -55,22 +55,6 @@ export default function WritePost() {
                     : null}
                 </div>
             </div>
-            <hr style={{color:'black'}}/>
-
-            <div className='flex flex-row justify-around  gap-4'>
-                <button className='w-full p-2 hover:bg-gray-200 text-gray-500 rounded'>
-                    <VideoCameraFrontIcon sx={{ color: 'red' }} />
-                    Live video
-                </button>
-                <button className='w-full p-2 hover:bg-gray-200 text-gray-500 rounded'>
-                    <PhotoLibraryIcon sx={{ color: 'green' }} />
-                    Photo/video
-                </button>
-                <button className='w-full p-2 hover:bg-gray-200 text-gray-500 rounded'>
-                    <SentimentVerySatisfiedIcon sx={{ color: 'yellow' }} />
-                    Feelig/activity
-                </button>
-            </div>
         </form>
     )
 }

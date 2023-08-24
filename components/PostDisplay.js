@@ -32,9 +32,6 @@ export default function PostDisplay({timePosted,body,postImage}) {
                         <button className='p-2 hover:bg-gray-200 rounded-full'>
                             <MoreHorizIcon />
                         </button>
-                        <button className='p-2 hover:bg-gray-200 rounded-full'>
-                            <ClearIcon />
-                        </button>
                     </div>
                 </li>
             </ul>
@@ -66,10 +63,6 @@ export default function PostDisplay({timePosted,body,postImage}) {
                 <button className='w-full p-2 hover:bg-gray-200 text-gray-500 rounded'>
                     <ChatBubbleOutlineRoundedIcon />
                     Comment
-                </button>
-                <button className='w-full p-2 hover:bg-gray-200 text-gray-500 rounded'>
-                    <ReplyOutlinedIcon  />
-                    Share
                 </button>
             </div>
         </div>  
