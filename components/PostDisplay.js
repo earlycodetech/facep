@@ -1,17 +1,42 @@
+import * as React from 'react';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ChatBubbleOutlineRoundedIcon from '@mui/icons-material/ChatBubbleOutlineRounded';
-import ReplyOutlinedIcon from '@mui/icons-material/ReplyOutlined';
 import PublicIcon from '@mui/icons-material/Public';
-import ClearIcon from '@mui/icons-material/Clear';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { hoursAgo } from '@/assets/hours-ago';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import { Button } from '@mui/material';
+import CustomDialog from './CustomDialog';
+import { db } from '@/settings/firebase.setting';
+import { doc,deleteDoc } from 'firebase/firestore';
 
-export default function PostDisplay({timePosted,body,postImage}) {
+export default function PostDisplay({postID,timePosted,body,postImage}) {
     const {data:session} = useSession();
+    //MENU CONTROL >>>> START
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => setAnchorEl(event.currentTarget);
+    const handleClose = () => setAnchorEl(null);
+    //MENU CONTROL >>>> END
+
+    //DIALOG CONTROL >>>> START
+    const [openDialog, setOpenDialog] = React.useState(false);
+    const handleClickOpenDialog = () => setOpenDialog(true);
+    const handleCloseDialog = () => setOpenDialog(false);
+    //DIALOG CONTROL >>>> END
+
+    //FUNCTION FOR DELETE POST
+    const handleDeletePost = async () => {
+        await deleteDoc(doc(db,'posts',postID))
+        .then(() => alert('post deleted'))
+        .catch(e => console.error(e))
+    }
 
     return (
+        <>
         <div className="border border-gray-100 bg-white rounded-md shadow-md py-4 mb-4">
             <ul className="flex justify-between px-4">
                 <li className="flex flex-row gap-1 items-center">
@@ -31,7 +56,8 @@ export default function PostDisplay({timePosted,body,postImage}) {
                 <li>
                     <div className="text-gray-700">
                         <button className='p-2 hover:bg-gray-200 rounded-full'>
-                            <MoreHorizIcon />
+                            <MoreHorizIcon
+                            onClick={handleClick} />
                         </button>
                     </div>
                 </li>
@@ -67,5 +93,38 @@ export default function PostDisplay({timePosted,body,postImage}) {
                 </button>
             </div>
         </div>  
+
+        <Menu
+        id="demo-positioned-menu"
+        aria-labelledby="demo-positioned-button"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+        >
+            <MenuItem>Update</MenuItem>
+            <MenuItem onClick={handleClickOpenDialog}>Delete</MenuItem>
+        </Menu>
+
+        <CustomDialog 
+        openProp={openDialog} 
+        handleCloseProp={handleCloseDialog} 
+        title='Delete post?'>
+            <p>Confirm post deletion</p>
+            <Button 
+            variant='outlined' 
+            color='error' 
+            onClick={handleDeletePost}>
+                Yes, delete
+            </Button>
+        </CustomDialog>
+        </>
     )
 }
