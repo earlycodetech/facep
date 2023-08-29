@@ -7,7 +7,7 @@ import PostDisplay from '@/components/PostDisplay';
 import { db } from '@/settings/firebase.setting';
 import { collection,query,where,getDocs,orderBy } from 'firebase/firestore';
 
-export default function Feeds() {
+export default function Profile() {
   const {data:session} = useSession();
   const router = useRouter();
   const [userPosts,setUserPosts] = React.useState([]);

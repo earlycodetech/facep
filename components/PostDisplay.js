@@ -12,10 +12,12 @@ import { Button,TextField } from '@mui/material';
 import CustomDialog from './CustomDialog';
 import { db } from '@/settings/firebase.setting';
 import { doc,deleteDoc,updateDoc } from 'firebase/firestore';
+import ActivityIndicator from '@/utils/activity-indicator';
 
 export default function PostDisplay({postID,timePosted,body,postImage}) {
     const {data:session} = useSession();
     const [formInput,setFormInput] = React.useState(body);//for update post form
+    const [showActivityIndicator,setShowActivityIndicator] = React.useState(false);
 
     //MENU CONTROL >>>> START
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -45,18 +47,29 @@ export default function PostDisplay({postID,timePosted,body,postImage}) {
 
     //DELETE A POST HANDLER
     const handleUpdatePost = async () => {
+        handleCloseDailogUpdate();//close dialog
+        setShowActivityIndicator(true);//start ActivityIndicator
+
         await updateDoc(doc(db,'posts',postID),{
             body:formInput,
             updatedAt:new Date().getTime(),
         },{
             merge:true,
         })
-        .then(() => alert('Post updated successfuly'))
-        .catch(error => console.error(error))
+        .then(() => {
+            setShowActivityIndicator(false);//stop ActivityIndicator
+            alert('Post updated successfuly');
+        })
+        .catch(error =>{ 
+            setShowActivityIndicator(false);//stop ActivityIndicator
+            console.error(error);
+        })
     }
 
     return (
         <>
+        { showActivityIndicator ? <ActivityIndicator/> : null}
+
         <div className="border border-gray-100 bg-white rounded-md shadow-md py-4 mb-4">
             <ul className="flex justify-between px-4">
                 <li className="flex flex-row gap-1 items-center">
