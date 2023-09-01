@@ -38,6 +38,7 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
 TODO
-1. Disable delete and update on feeds - for posts not made by authenticated
-2. Show time post was updated
-3. Add comments to posts/show comments of a post
+1. changes author from to uid 
+2. Disable delete and update on feeds - for posts not made by authenticated
+3. Show time post was updated
+4. Add comments to posts/show comments of a post
