@@ -4,6 +4,8 @@ import Link from "next/link";
 import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { AiOutlineDoubleRight } from 'react-icons/ai';
+import { BiHelpCircle } from 'react-icons/bi';
 
 export default function Home() {
   const router = useRouter();
@@ -29,29 +31,24 @@ export default function Home() {
                 The Coolest way to connect with friends and hold money
               </h2>
             </div>
-            <div className="w-full sm:min-h-[480px] flex flex-col gap-5">
-                <form className="flex flex-col gap-3">
-                    <input 
-                    type="email" 
-                    placeholder="Email address"
-                    className="py-3 sm:py-5 px-2 border border-indigo-400 rounded-lg bg-white/60"
-                    />
-                    <input 
-                    type="password" 
-                    placeholder="Password"
-                    className="py-3 sm:py-5 px-2 border border-indigo-400 rounded-lg bg-white/60"
-                    />
-                    <button className="max-w-[160px] h-12 bg-indigo-800 rounded-lg text-white font-bold"
-                    >Log in to facepal</button>
-                </form>
-        
+
+            <div className="w-full sm:min-h-[480px] flex flex-col gap-5 justify-end">
                 <div className="w-full grid grid-cols-2 gap-3">
-                    <button 
-                    className="w-full h-12 bg-green-600 rounded-lg text-white font-bold">Google</button>
-                    <button className="w-full h-12 bg-sky-600 rounded-lg text-white font-bold">Twitter</button>
+                    <Link 
+                    href='/auth/signup'
+                    className="w-full h-12 flex flex-row gap-4 justify-center items-center bg-violet-950 rounded-lg text-white font-bold">
+                      Get Started
+                      <AiOutlineDoubleRight/>
+                    </Link>
+                    <Link 
+                    href="#"
+                    className="w-full h-12 flex flex-row gap-4 justify-center items-center bg-violet-600 rounded-lg text-white font-bold">
+                      Get Help
+                      <BiHelpCircle/>
+                    </Link>
                 </div>
         
-                <p className="text-2xl text-white">New to facepal? <Link href="#" className="underline">create account</Link></p>
+                <p className="text-xl text-white">Want to become a facepal partner? <Link href="/partner-signup" className="underline">become a partner</Link></p>
             </div>
         </div>
       </div>
