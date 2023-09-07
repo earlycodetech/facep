@@ -6,6 +6,8 @@ import { TextField } from '@mui/material';
 import { db,storage } from '@/settings/firebase.setting';
 import { collection,addDoc,updateDoc,doc } from 'firebase/firestore';
 import { ref,uploadString,getDownloadURL } from 'firebase/storage';
+import ActivityIndicator from '@/utils/activity-indicator';
+import CustomDialog from '@/components/CustomDialog';
 
 const validationRules = yup.object().shape({
     compName:yup.string().required(),
@@ -17,6 +19,13 @@ const validationRules = yup.object().shape({
 
 export default function PartnerSignup() {
     const [selectedFile,setSelectedFile] = useState(null);
+
+    //CONFIRMATION DIALOG >>>> START
+    const [openDialog, setOpenDialog] = useState(false);
+    const handleClickOpenDialog = () => setOpenDialog(true);
+    const handleCloseDialog = () => setOpenDialog(false);
+    //CONFIRMATION DIALOG >>>> END
+
     //use company name to form a slug
     const strToArray = values.compName.split(' ');
     let slug = strToArray.join('-').toLowerCase();
@@ -45,7 +54,7 @@ export default function PartnerSignup() {
             pagePath:slug,
             createdAt:new Date().getTime(),
             imageUrl:cdnImages[rangeOfRandNums(0,cdnImages.length)]
-        }); //>>>>>>>>>we stopped here
+        });
 
         const imageRef = ref(storage,`partners/${docRes.id}/image`);
 
@@ -163,6 +172,13 @@ export default function PartnerSignup() {
             </form>
         </div>
       </div>
+
+    <CustomDialog 
+    openProp={openDialog} 
+    handleCloseProp={handleCloseDialog} 
+    title='Confirmation'>
+        <p>You have successfully created a facepal partner account</p>
+    </CustomDialog>
     </>
   )
 }
