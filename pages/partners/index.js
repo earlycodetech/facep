@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Head from "next/head";
@@ -10,22 +11,23 @@ export async function getStaticProps() {
     const q = query(collection(db,'partners'),orderBy('createdAt','desc'))
     const onSnap = await getDocs(q);
 
-    onSnap.forEach(document => {
+    onSnap.docs.map(document => {
         partners.push({
             id:document.id,
             data:document.data(),
         })
-    })
+    });
 
     return {
         props: {
-            partnersData:partners
+            data:partners,
         }
     }
 }
 
-export default function Partners({partnersData}) {
-    console.log('///////',partnersData)
+export default function Partners({data}) {
+    console.log(data)
+
     return (
         <>
         <Head>
@@ -40,7 +42,13 @@ export default function Partners({partnersData}) {
             </h1>
 
             <section className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mt-8">
-              
+                {/* {
+                    partners.map(item => (
+                        <article>
+                            {item.data.address}
+                        </article>
+                    ))
+                } */}
             </section>
         </main>
         </>

@@ -1,13 +1,30 @@
-import { createContext,useState } from "react";
+import { createContext,useState,useEffect } from "react";
+import { db } from "./firebase.setting";
+import { getDocs,collection } from "firebase/firestore";
 
 const AppContext = createContext();
 
 const FacepalContext = ({children}) => {
-    const [ip,setIp] = useState('192.168.1.1');
-    const [signedIn,setSignedIn] = useState(false);
+    const [users,setUsers] = useState([]);
+
+    const getUsers = async () => {
+        const onSnapShot = await getDocs(collection(db,'users'));
+        setUsers(onSnapShot.docs.map(doc => {
+            return {
+                id:doc.id,
+                data:{
+                    ...doc.data()
+                }
+            }
+        }))
+    }
+
+    useEffect(() => {
+        getUsers();
+    },[])
 
     return (
-        <AppContext.Provider value={{ip,setIp,signedIn,setSignedIn}}>
+        <AppContext.Provider value={{users}}>
             {children}
         </AppContext.Provider>
     )
