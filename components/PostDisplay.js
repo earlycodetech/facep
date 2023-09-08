@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { AppContext } from '@/settings/globals';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
@@ -14,10 +15,20 @@ import { db } from '@/settings/firebase.setting';
 import { doc,deleteDoc,updateDoc } from 'firebase/firestore';
 import ActivityIndicator from '@/utils/activity-indicator';
 
-export default function PostDisplay({postID,timePosted,body,postImage}) {
+export default function PostDisplay({postID,timePosted,body,postImage,authorUid}) {
     const {data:session} = useSession();
     const [formInput,setFormInput] = React.useState(body);//for update post form
     const [showActivityIndicator,setShowActivityIndicator] = React.useState(false);
+    const {users} = React.useContext(AppContext);
+
+    const getPostByAuthorInfo = (authorUID) => {
+      const filteredUser = users.filter(item => item.id == authorUID);
+
+      return {
+        a_name:filteredUser[0].data.name,
+        a_photo:filteredUser[0].data.image
+      }
+    }
 
     //MENU CONTROL >>>> START
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -75,11 +86,11 @@ export default function PostDisplay({postID,timePosted,body,postImage}) {
                 <li className="flex flex-row gap-1 items-center">
                     <Image 
                     className="rounded-full" 
-                    src={session?.user.image} 
+                    src={getPostByAuthorInfo().a_photo} 
                     width={40} height={40} 
                     alt="profile photo"/>                                
                     <div className='flex flex-col'>
-                        <small className="text-gray-800">{session?.user.name}</small>
+                        <small className="text-gray-800">{getPostByAuthorInfo().a_name}</small>
                         <small className='text-gray-500'>
                             <span>{hoursAgo(timePosted)} hours ago</span>
                             <PublicIcon sx={{fontSize:15}} />

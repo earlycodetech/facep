@@ -15,6 +15,7 @@ export default function Feeds() {
   const {data:session} = useSession();
   const [posts,setPosts] = useState([]);
 
+
   //get posts from firestore
   const getPosts = async () => {
     const res = await getDocs(collection(db,'posts'));
