@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useFormik } from "formik";
 import * as yup from 'yup';
 import { getServerSession } from "next-auth";
@@ -45,9 +46,14 @@ export default function Signup() {
 
     return (
         <>
-        <main className="h-screen flex justify-center items-center px-4 sm:px-0">
+        <Head>
+            <link rel="shortcut icon" href="/facepal_icon_logo.ico" type="image/x-icon" />
+            <title>facepal | Sign to facepal</title>
+            <meta name="description" content="facepal is the coolest social media platform to connect with friends and hold money" />
+        </Head>
+        <main className="h-screen flex justify-center items-center px-4 sm:px-0 bg-gradient-to-b from-white to-gray-400">
             <div className="w-[480px] sm:min-h-[480px] flex flex-col gap-5">
-                <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
+                <form className="hidden" onSubmit={handleSubmit}>
                     <input 
                     id="email"
                     type="email" 
@@ -87,7 +93,7 @@ export default function Signup() {
                     >Create Account</button>
                 </form>
         
-                <div className="w-full grid grid-cols-2 gap-3">
+                <div className="w-full flex flex-col gap-3">
                     <button 
                     onClick={() => signIn('google')}
                     className="w-full h-12 bg-green-600 rounded-lg text-white font-bold"

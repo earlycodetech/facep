@@ -25,8 +25,8 @@ export default function PostDisplay({postID,timePosted,body,postImage,authorUid}
         const filteredUser = users.filter(item => item.id == authorUID);
 
         return {
-            a_name:filteredUser[0].data.name,
-            a_photo:filteredUser[0].data.image
+            a_name:filteredUser[0]?.data.name,
+            a_photo:filteredUser[0]?.data.image
         }
     }
 

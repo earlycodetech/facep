@@ -1,23 +1,22 @@
 import React from 'react';
 import Image from 'next/image';
+import Head from 'next/head';
 import {GoSignOut} from 'react-icons/go';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../api/auth/[...nextauth]';
 import { useSession,signOut } from 'next-auth/react';
-import { useRouter } from 'next/router';
 import PostDisplay from '@/components/PostDisplay';
 import { db } from '@/settings/firebase.setting';
 import { collection,query,where,getDocs,orderBy } from 'firebase/firestore';
 
 export default function Profile() {
   const {data:session} = useSession();
-  const router = useRouter();
   const [userPosts,setUserPosts] = React.useState([]);
 
   const handleGetUserPosts = async () => {
     const q = query(
         collection(db,'posts'),
-        where('author','==',session.user.email),
+        where('author','==',session.uid),
         orderBy('postedAt','desc')
     );
     const onSnapShot = await getDocs(q);
@@ -30,10 +29,15 @@ export default function Profile() {
         }
     }))
   }
-  handleGetUserPosts();
+  handleGetUserPosts()
 
   return (
     <>
+      <Head>
+        <link rel="shortcut icon" href="/facepal_icon_logo.ico" type="image/x-icon" />
+        <title>facepal | Profile</title>
+        <meta name="description" content="facepal is the coolest social media platform to connect with friends and hold money" />
+      </Head>
       <main className="h-screen flex justify-center bg-gradient-to-b from-indigo-500 via-sky-500 to-pink-500">
             <div className="w-full sm:w-[400px] h-full bg-white overflow-y-scroll">
                 {/* profile holder */}
@@ -52,18 +56,13 @@ export default function Profile() {
                     </div>
 
                     <div>
-                        <p className="text-sm mt-1">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Alias eum voluptatum distinctio rem culpa
-                            aperiam assumenda deserunt molestias,
-                            doloremque iusto adipisicing elit. Reprehenderit est vitae alias officiis!
-                        </p>
-                        
-                        <GoSignOut 
-                        className="text-gray-800 my-3"
-                        onClick={() => signOut()}/>
-
                         <ul className="flex flex-row justify-between mt-1">
-                            <li className="text-sm text-gray-700">🇹🇴 Abuja</li>
                             <li className="text-sm text-gray-700">pal since 2022</li>
+                            <li className="text-sm text-gray-700">
+                              <GoSignOut 
+                              className="text-gray-800 my-3"
+                              onClick={() => signOut()}/>
+                            </li>
                         </ul>
                     </div>
                 </header>
@@ -73,7 +72,7 @@ export default function Profile() {
                 <div className="flex flex-col gap-2 p-3">
                     {
                         userPosts.map(post => (
-                        <div id={post.id}>
+                        <div key={post.id}>
                             <PostDisplay 
                             postID={post.id}
                             timePosted={post.data.postedAt}

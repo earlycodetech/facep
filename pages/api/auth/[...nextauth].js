@@ -19,7 +19,7 @@ export const authOptions = {
     }),
     callbacks:{
         async session({session,user}) {
-            // session.tok = '67321774ygrgg42';
+            session.uid = user.id;//creates a new session prop called id
 
             return session;
         }
