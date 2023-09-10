@@ -71,6 +71,7 @@ export default function Feeds() {
                               timePosted={post.data.postedAt}
                               body={post.data.body}
                               postImage={post.data.imageUrl}
+                              authorUid={post.data.author}
                               />
                             </div>
                           ))

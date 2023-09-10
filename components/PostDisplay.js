@@ -22,12 +22,12 @@ export default function PostDisplay({postID,timePosted,body,postImage,authorUid}
     const {users} = React.useContext(AppContext);
 
     const getPostByAuthorInfo = (authorUID) => {
-      const filteredUser = users.filter(item => item.id == authorUID);
+        const filteredUser = users.filter(item => item.id == authorUID);
 
-      return {
-        a_name:filteredUser[0].data.name,
-        a_photo:filteredUser[0].data.image
-      }
+        return {
+            a_name:filteredUser[0].data.name,
+            a_photo:filteredUser[0].data.image
+        }
     }
 
     //MENU CONTROL >>>> START
@@ -86,11 +86,11 @@ export default function PostDisplay({postID,timePosted,body,postImage,authorUid}
                 <li className="flex flex-row gap-1 items-center">
                     <Image 
                     className="rounded-full" 
-                    src={getPostByAuthorInfo().a_photo} 
+                    src={getPostByAuthorInfo(authorUid).a_photo} 
                     width={40} height={40} 
                     alt="profile photo"/>                                
                     <div className='flex flex-col'>
-                        <small className="text-gray-800">{getPostByAuthorInfo().a_name}</small>
+                        <small className="text-gray-800">{getPostByAuthorInfo(authorUid).a_name}</small>
                         <small className='text-gray-500'>
                             <span>{hoursAgo(timePosted)} hours ago</span>
                             <PublicIcon sx={{fontSize:15}} />
